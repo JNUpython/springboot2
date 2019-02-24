@@ -2,6 +2,7 @@ package chapter3.config;
 
 import chapter3.pojo.User;
 import org.apache.commons.dbcp2.BasicDataSourceFactory;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,7 @@ import java.util.Properties;
 @Configuration  // java 的的配置文件， 程序
 @ComponentScan(value = "chapter3.*")  // 通过扫描的方式将指定范围的Component装配到IoC容器
 // @ComponentScan(value = "chapter3.*", excludeFilters = {@ComponentScan.Filter(classes = {Service.class})}) // 可以Scan跳过Service类
+@EnableConfigurationProperties
 public class AppConfig {
 
     /**

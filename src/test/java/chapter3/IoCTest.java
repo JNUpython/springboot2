@@ -42,6 +42,8 @@ public class IoCTest {
         UserService userService = applicationContext.getBean(UserService.class);
         userService.printUser(user);
         // DataBaseProperties
-        log.info("{}", applicationContext.getBean(DataBaseProperties.class));
+        DataBaseProperties dataBaseProperties = applicationContext.getBean(DataBaseProperties.class);
+        dataBaseProperties.print();
+        log.info("{}", dataBaseProperties);
     }
 }
