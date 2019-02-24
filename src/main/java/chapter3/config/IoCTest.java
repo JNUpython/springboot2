@@ -2,8 +2,10 @@ package chapter3.config;
 
 
 import chapter3.pojo.BussinessPerson;
+import chapter3.pojo.Cat;
 import chapter3.pojo.User;
 import chapter3.pojo.definition.Person;
+import chapter3.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -24,5 +26,10 @@ public class IoCTest {
         // 通过type获取
         Person person = applicationContext.getBean(BussinessPerson.class);
         person.service();
+        person.setAnimal(new Cat());
+        person.service();
+        // Service
+        UserService userService = applicationContext.getBean(UserService.class);
+        userService.printUser(user);
     }
 }

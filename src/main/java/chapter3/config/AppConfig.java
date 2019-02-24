@@ -7,15 +7,21 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import javax.sql.DataSource;
+import javax.xml.ws.Service;
 import java.util.Properties;
 
-@Configuration
-@ComponentScan("chapter3.*")
+
+@Configuration  // java 的的配置文件， 程序
+@ComponentScan(value = "chapter3.*")  // 通过扫描的方式将指定范围的Component装配到IoC容器
+// @ComponentScan(value = "chapter3.*", excludeFilters = {@ComponentScan.Filter(classes = {Service.class})}) // 可以Scan跳过Service类
 public class AppConfig {
 
-    @Bean(name = "initUser")
+    /**
+     * @return
+     */
+    @Bean(name = "initUser") // 给定bean一个名称，不给默认是方法的名称
     public User initUser() {
-        User user =  new User();
+        User user = new User();
         user.setId(1L);
         user.setUserName("user_name_1");
         user.setNote("note_1");
