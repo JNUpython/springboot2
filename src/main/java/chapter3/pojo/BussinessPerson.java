@@ -2,9 +2,15 @@ package chapter3.pojo;
 
 import chapter3.pojo.definition.Animal;
 import chapter3.pojo.definition.Person;
+import org.springframework.beans.factory.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 /**
  * @author : kean
@@ -17,7 +23,9 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class BussinessPerson implements Person {
+public class BussinessPerson implements Person,
+        // 下面为研究生命周期而添加
+        BeanNameAware, BeanFactoryAware, ApplicationContextAware, InitializingBean, DisposableBean {
 
     // 根据property的type自己寻找注入
     @Autowired(required = true)
@@ -33,6 +41,43 @@ public class BussinessPerson implements Person {
 
     @Override
     public void setAnimal(Animal animal) {
+        System.out.println("延迟依赖注入");
         this.dog = animal;
     }
+
+    @Override
+    public void setBeanName(String beanName) {
+        System.out.println("[" + this.getClass().getSimpleName() + "] 调用BeanNameAware的setBeanName");
+    }
+
+    @Override
+    public void setBeanFactory(BeanFactory beanFactory) {
+        System.out.println("[" + this.getClass().getSimpleName() + "] 调用BeanFactoryAware的setBeanFactory");
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) {
+        System.out.println("[" + this.getClass().getSimpleName() + "] 调用ApplicationContextAware的setApplicationContext");
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        System.out.println("[" + this.getClass().getSimpleName() + "] 调用InitializingBean的afterPropertiesSet");
+    }
+
+    @PostConstruct
+    public void init() {
+        System.out.println("[" + this.getClass().getSimpleName() + "] 调用InitializingBean的init");
+    }
+
+    @PreDestroy
+    public void destroyl() {
+        System.out.println("[" + this.getClass().getSimpleName() + "] 调用@PreDestroy自定义销毁的方法");
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        System.out.println("[" + this.getClass().getSimpleName() + "] 调用DisposableBean销毁的方法");
+    }
+
 }
