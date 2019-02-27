@@ -43,7 +43,6 @@ public class IoCTest {
         userService.printUser(user);
         // DataBaseProperties
         DataBaseProperties dataBaseProperties = applicationContext.getBean(DataBaseProperties.class);
-        dataBaseProperties.print();
         log.info("{}", dataBaseProperties);
     }
 }
