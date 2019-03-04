@@ -3,7 +3,7 @@
 
 ## <<深入浅出SpringBoot2.x>>
 
-### 第3章全注解下的Spring IoC
+### Chapter3 全注解下的Spring IoC
 ```
 java 的的配置文件， 程序
 @Configuration  
@@ -27,3 +27,8 @@ User user = (User) applicationContext.getBean("user");
 10. @Value("T(class)") @Value("#{}") 以及配合？判断是否为null继续执行后面方法例如：#{beanName.str?.toUpperCase}
 11. spring.profiles.active 拥有最高的环境选择优先级；一般有测试 生产 开发 准生产4套环境，命名方式如application-dev.properties
 11. @Profile("dev") 指定bean的properties环境文件.
+
+### AOP IoC 概述
+https://juejin.im/post/5c7654e351882562962ef70e
+
+### Chapter4 AOP
