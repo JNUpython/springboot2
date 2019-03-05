@@ -3,7 +3,8 @@
 
 ## <<深入浅出SpringBoot2.x>>
 
-### Chapter3 全注解下的Spring IoC
+### C
+hapter3 全注解下的Spring IoC
 ```
 java 的的配置文件， 程序
 @Configuration  
@@ -22,7 +23,7 @@ User user = (User) applicationContext.getBean("user");
 5. Bean的初始化到销毁叫生命周期。
 6. @ComponentScan 默认lazyInit为true，即只有被装配的Bean被调用时才会被初始化。
 7. @Value("${database.driverName}") 此方法获取application.properties中的属性值
-8. @ConfigurationProperties("database") 批量按照属性的名称匹配获取属性值
+8. @ConfigurationProperties("database") 批量按照属性的名称匹配获取属性值, @PropertySource("classpath:jdbc.properties") // 指定文件
 9. @Scope 限定Component使用范围
 10. @Value("T(class)") @Value("#{}") 以及配合？判断是否为null继续执行后面方法例如：#{beanName.str?.toUpperCase}
 11. spring.profiles.active 拥有最高的环境选择优先级；一般有测试 生产 开发 准生产4套环境，命名方式如application-dev.properties
@@ -32,3 +33,10 @@ User user = (User) applicationContext.getBean("user");
 https://juejin.im/post/5c7654e351882562962ef70e
 
 ### Chapter4 AOP
+1. pom 文件需要aop
+2. @Before("execution(* chapter4.aspect.service.impl.UserServiceImpl.printUser(..))") * 代表任何返回类型 
+3. @Aspect 切面
+4. @PointCut 定义切点
+5. @DeclareParents(value= "chapter4.aspect.service.impl.UserServiceImpl+", defaultImpl= UserValidatorImpl.class) 新功能
+
+      

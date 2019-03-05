@@ -1,11 +1,10 @@
 package chapter4.aspect.controller;
 
 import chapter3.pojo.User;
-import chapter4.aspect.service.UserService;
-import chapter4.aspect.service.UserServiceImpl;
+import chapter4.aspect.service.impl.UserServiceImpl;
+import chapter4.aspect.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -32,6 +31,11 @@ public class UserController {
         user.setNote(note);
         user.setId(id);
         user.setUserName(userName);
+        // 通过
+        // UserValidator userValidator = (UserValidator) userServiceImpl;
+        // if (userValidator.validate(user)) {
+        //     userServiceImpl.printUser(user);
+        // }
         userServiceImpl.printUser(user);
         return user;
     }

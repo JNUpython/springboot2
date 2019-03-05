@@ -1,6 +1,7 @@
-package chapter4.aspect.service;
+package chapter4.aspect.service.impl;
 
 import chapter3.pojo.User;
+import chapter4.aspect.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,6 @@ public class UserServiceImpl implements UserService {
         if (null == user) {
             throw new RuntimeException("user is null");
         }
-        log.info("{}", user);
+        // log.info("{}", user);
     }
 }
