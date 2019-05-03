@@ -34,9 +34,9 @@ https://juejin.im/post/5c7654e351882562962ef70e
 
 ### Chapter4 AOP
 1. pom 文件需要aop
-2. @Before("execution(* chapter4.aspect.service.impl.UserServiceImpl.printUser(..))") * 代表任何返回类型 
+2. @Before("execution(* com.chapter4.aspect.service.impl.UserServiceImpl.printUser(..))") * 代表任何返回类型 
 3. @Aspect 切面
 4. @PointCut 定义切点
-5. @DeclareParents(value= "chapter4.aspect.service.impl.UserServiceImpl+", defaultImpl= UserValidatorImpl.class) 新功能
+5. @DeclareParents(value= "com.chapter4.aspect.service.impl.UserServiceImpl+", defaultImpl= UserValidatorImpl.class) 新功能
 
       
