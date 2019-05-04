@@ -19,14 +19,26 @@
         <setting name="cacheEnabled" value="true"/>
     </settings>
 
-    <environments default="development">
-        <environment id="development">
+    <!--  default 选定不同环境  -->
+    <environments default="oracle">
+
+        <environment id="mysql">
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
                 <property name="driver" value="${database.driverName2}"/>
                 <property name="url" value="${database.url1}"/>
                 <property name="username" value="${database.username1}"/>
                 <property name="password" value="${database.password1}"/>
+            </dataSource>
+        </environment>
+
+        <environment id="oracle">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${database.driverName2}"/>
+                <property name="url" value="${database.url2}"/>
+                <property name="username" value="${database.username2}"/>
+                <property name="password" value="${database.password2}"/>
             </dataSource>
         </environment>
     </environments>

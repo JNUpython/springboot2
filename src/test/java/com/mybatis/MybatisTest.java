@@ -30,7 +30,7 @@ public class MybatisTest {
 
     /**
      * xml SqlSessionFactory 创建
-     *
+     * 传统方法
      * @throws IOException
      */
     @Test
@@ -47,6 +47,10 @@ public class MybatisTest {
         }
     }
 
+    /**
+     * 采用接口的方法
+     * @throws IOException
+     */
     @Test
     public void test2() throws IOException {
         InputStream inputStream = Resources.getResourceAsStream(resource);
@@ -65,7 +69,7 @@ public class MybatisTest {
 
     @Test
     public void test3() throws IOException {
-        InputStream inputStream = Resources.getResourceAsStream("mybatis/mybatis-mysql.xml");
+        InputStream inputStream = Resources.getResourceAsStream(resource);
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
         SqlSession sqlSession = sqlSessionFactory.openSession();
         try {
