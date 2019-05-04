@@ -5,6 +5,13 @@
 <configuration>
     <!-- 添加公共变量信息：方法1   -->
     <properties resource="application-dev.properties"></properties>
+
+    <settings>
+        <!--   设置数库每个设置项     -->
+        <!--   全局地开启或关闭配置文件中的所有映射器已经配置的任何缓存。     -->
+        <setting name="cacheEnabled" value="true"/>
+    </settings>
+
     <environments default="development">
         <environment id="development">
             <transactionManager type="JDBC"/>
@@ -17,7 +24,7 @@
         </environment>
     </environments>
     <mappers>
-        <mapper resource="EmployeeMapper.xml"/>
-        <mapper resource="EmployeeMapperInterface"/>
+        <mapper resource="mybatis/EmployeeMapper.xml"/>
+        <mapper resource="mybatis/EmployeeMapperInterface"/>
     </mappers>
 </configuration>

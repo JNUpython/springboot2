@@ -26,7 +26,7 @@ public class MybatisTest {
 
     private static final Logger logger = LoggerFactory.getLogger(MybatisTest.class);
 
-    private static final String resource = "mybatis-mysql.xml";
+    private static final String resource = "mybatis/mybatis-mysql.xml";
 
     /**
      * xml SqlSessionFactory 创建
