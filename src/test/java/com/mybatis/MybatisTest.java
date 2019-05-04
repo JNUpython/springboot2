@@ -62,4 +62,20 @@ public class MybatisTest {
             logger.info("查询完成!");
         }
     }
+
+    @Test
+    public void test3() throws IOException {
+        InputStream inputStream = Resources.getResourceAsStream("mybatis/mybatis-mysql.xml");
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        try {
+            EmployeeMapper employeeMapper = sqlSession.getMapper(EmployeeMapper.class);
+            logger.info("Mapper class: {}", employeeMapper.getClass());
+            Employee employee = employeeMapper.getEmpById(101);
+            logger.info("{} {} {}", employee.getId(), employee.getName(), employee.getSex());
+        } finally {
+            sqlSession.close();
+            logger.info("查询完成!");
+        }
+    }
 }
