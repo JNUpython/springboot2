@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-    <!-- 添加公共变量信息：方法1   -->
+    <!-- 添加公共变量信息：方法1 这样我们就可以用dev配置文件中一些变量  -->
     <properties resource="application-dev.properties"></properties>
     <!--   自定义一些变量-->
     <!--    <properties>-->
@@ -21,7 +21,6 @@
 
     <!--  default 选定不同环境  -->
     <environments default="oracle">
-
         <environment id="mysql">
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
