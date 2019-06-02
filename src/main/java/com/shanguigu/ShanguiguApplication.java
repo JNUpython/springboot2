@@ -2,6 +2,7 @@ package com.shanguigu;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ImportResource;
 
 /**
  * @author : kean
@@ -14,6 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 
 @SpringBootApplication
+//@ImportResource(value = {"classpath:person/person.yml"})
 public class ShanguiguApplication {
     public static void main(String[] args) {
         SpringApplication.run(ShanguiguApplication.class, args);

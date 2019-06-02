@@ -3,7 +3,8 @@
 
 ## <<深入浅出SpringBoot2.x>>
 
-### C
+
+
 hapter3 全注解下的Spring IoC
 ```
 java 的的配置文件， 程序
@@ -32,11 +33,64 @@ User user = (User) applicationContext.getBean("user");
 ### AOP IoC 概述
 https://juejin.im/post/5c7654e351882562962ef70e
 
-### Chapter4 AOP
 1. pom 文件需要aop
 2. @Before("execution(* com.chapter4.aspect.service.impl.UserServiceImpl.printUser(..))") * 代表任何返回类型 
 3. @Aspect 切面
 4. @PointCut 定义切点
 5. @DeclareParents(value= "com.chapter4.aspect.service.impl.UserServiceImpl+", defaultImpl= UserValidatorImpl.class) 新功能
 
-      
+
+
+前面没有系统的学习，现在学习尚硅谷的视频；<https://github.com/JNUpython/springboot2/tree/develop>
+
+# lesson1
+
+## mybatis
+
+1. springboot采用自动装配机制，如果引入spring的相关mybatis以及jdbc会自动装配，那么意味我们必须在properties里面添加相关的配置文件。现在直接用mybatis没有用spring的mybatis框架，所以必须注释掉spring关于mybatis的dependency
+2. 关于mybatis原生配置：定义全局mybatis的xml配置文件 + 业务表的对应类 + 业务对应的接扣抽象方法 + 抽象方法对应的xml文件（SQL）代码
+
+## springboot
+
+1. @PropertySource
+
+```java
+@Data
+@Component
+// 如果定义在application配置文件，不需要，如果指定就需要PropertySource 指定文件
+@PropertySource(value = {"classpath:person/person.properties"})
+@ConfigurationProperties(prefix = "person")
+public class Person {
+    String name;
+    String lastName;
+    Integer age;
+    Boolean sex;
+    Dog dog;
+    List<Integer> nums;
+    Map<String, String> map;
+
+    @Override
+    public String toString() {
+        return String.format("%s %s %s", name, dog, map);
+    }
+}
+```
+
+此方法对应的配置文件必须是properties，yml不会生效
+
+```properties
+person.name=kean
+person.lastName=lee
+person.age=20
+person.sex=true
+person.dog.name=GG
+person.dog.age=2
+person.dog.nums=1, 2, 3
+person.dog.map.k1=v1
+person.dog.map.k2=v2
+```
+
+
+
+
+
