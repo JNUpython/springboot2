@@ -20,7 +20,7 @@
     </settings>
 
     <!--  default 选定不同环境  -->
-    <environments default="oracle">
+    <environments default="mysql">
         <environment id="mysql">
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
@@ -43,6 +43,7 @@
     </environments>
     <mappers>
         <mapper resource="mybatis/EmployeeMapper.xml"/>
-        <mapper resource="mybatis/EmployeeMapperInterface"/>
+        <mapper resource="mybatis/EmployeeMapperInterface.xml"/>
+        <mapper resource="mybatis/CompanyMapper.xml"/>
     </mappers>
 </configuration>

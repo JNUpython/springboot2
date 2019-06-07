@@ -14,6 +14,6 @@ import com.shanguigu.mybatis.bean.Employee;
 
 public interface EmployeeMapper {
 
-    public Employee getEmpById(Integer id);
+    Employee getEmpById(Integer id);
 
 }

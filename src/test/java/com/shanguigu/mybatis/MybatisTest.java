@@ -1,6 +1,8 @@
 package com.shanguigu.mybatis;
 
+import com.shanguigu.mybatis.bean.Company;
 import com.shanguigu.mybatis.bean.Employee;
+import com.shanguigu.mybatis.dao.CompanyMapper;
 import com.shanguigu.mybatis.dao.EmployeeMapper;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -26,7 +28,7 @@ public class MybatisTest {
 
     private static final Logger logger = LoggerFactory.getLogger(MybatisTest.class);
 
-    private static final String resource = "mybatis/mybatis-mysql.xml";
+    private static final String resource = "mybatis/mybatis.xml";
 
     /**
      * xml SqlSessionFactory 创建
@@ -74,13 +76,12 @@ public class MybatisTest {
     @Test
     public void test3() throws IOException {
         InputStream inputStream = Resources.getResourceAsStream(resource);
-        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream, "oracle");
         SqlSession sqlSession = sqlSessionFactory.openSession();
         try {
-            EmployeeMapper employeeMapper = sqlSession.getMapper(EmployeeMapper.class);
-            logger.info("Mapper class: {}", employeeMapper.getClass());
-            Employee employee = employeeMapper.getEmpById(101);
-            logger.info("{} {} {}", employee.getId(), employee.getName(), employee.getSex());
+            CompanyMapper companyMapper = sqlSession.getMapper(CompanyMapper.class);
+            Company company = companyMapper.selectByCompany("jd");
+            logger.info("{}", company);
         } finally {
             sqlSession.close();
             logger.info("查询完成!");
