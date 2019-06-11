@@ -10,14 +10,47 @@
     resultType： 返回数据类型
     -->
 
+    <!--    <select id="selectByCompany" parameterType="java.lang.String" resultMap="map">-->
+    <!--        SELECT ID, COMPANY FROM TBL_COMPANY WHERE COMPANY = #{company}-->
+    <!--    </select>-->
+
+<!--    <select id="selectByCompany" parameterType="java.lang.String" resultMap="map">-->
+<!--        SELECT a.ID ID, a.COMPANY COMPANY, b.ID PERSON_ID, b.NAME NAME, b.SEX SEX, b.COMPANY_ID COMPANY_ID FROM-->
+<!--            TBL_COMPANY a LEFT JOIN TBL_EMPLOYEE b ON a.ID = b.COMPANY_ID-->
+<!--        WHERE a.COMPANY = #{company}-->
+<!--    </select>-->
+
+
     <select id="selectByCompany" parameterType="java.lang.String" resultMap="map">
-        SELECT ID, COMPANY FROM TBL_COMPANY WHERE COMPANY = #{company}
+        SELECT
+        a.ID ID, a.COMPANY COMPANY, b.ID PERSON_ID, b.NAME NAME, b.SEX SEX, b.COMPANY_ID COMPANY_ID
+        FROM
+        TBL_COMPANY a left join TBL_BOSS b on b.COMPANY_ID = a.ID
+        WHERE a.COMPANY = #{company}
     </select>
+
 
     <!-- 通过resultMap 解决 命名问题   -->
     <resultMap id="map" type="com.shanguigu.mybatis.bean.Company">
-        <result property="id" column="ID"></result>
-        <result property="company" column="COMPANY"></result>
+        <result property="id" column="ID" javaType="java.lang.Integer"></result>
+        <result property="company" column="COMPANY" javaType="java.lang.String"></result>
+        <!-- 复杂javabean嵌套映射       -->
+        <association property="boss" resultMap="boss" javaType="com.shanguigu.mybatis.bean.Boss"></association>
+<!--        <collection property="employeeList" resultMap="employees" ofType="com.shanguigu.mybatis.bean.Employee"></collection>-->
+    </resultMap>
+
+    <resultMap id="boss" type="com.shanguigu.mybatis.bean.Boss">
+        <result property="id" column="PERSON_ID"></result>
+        <result property="name" column="NAME"></result>
+        <result property="companyId" column="COMPANY_ID"></result>
+        <result property="sex" column="SEX"></result>
+    </resultMap>
+
+    <resultMap id="employees" type="com.shanguigu.mybatis.bean.Employee">
+        <result property="id" column="PERSON_ID"></result>
+        <result property="name" column="NAME"></result>
+        <result property="companyId" column="COMPANY_ID"></result>
+        <result property="sex" column="SEX"></result>
     </resultMap>
 
 </mapper>

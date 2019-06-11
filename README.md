@@ -47,8 +47,170 @@ https://juejin.im/post/5c7654e351882562962ef70e
 
 ## mybatis
 
+### 1.1概述
+
 1. springboot采用自动装配机制，如果引入spring的相关mybatis以及jdbc会自动装配，那么意味我们必须在properties里面添加相关的配置文件。现在直接用mybatis没有用spring的mybatis框架，所以必须注释掉spring关于mybatis的dependency
 2. 关于mybatis原生配置：定义全局mybatis的xml配置文件 + 业务表的对应类 + 业务对应的接扣抽象方法 + 抽象方法对应的xml文件（SQL）代码
+
+### 1.2mybatis使用两种烦啊
+
+#### 1.2.1定义全局的mybatis配置文件
+
+```xml-dtd
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- 添加公共变量信息：方法1 这样我们就可以用dev配置文件中一些变量  -->
+    <properties resource="jdbc.properties"></properties>
+    <!--   自定义一些变量-->
+    <!--    <properties>-->
+    <!--        <property name="url" value="jdbc:mysql://127.0.0.1:3306/test?serverTimezone=CTT&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true"/>-->
+    <!--        <property name="driver" value="com.mysql.jdbc.Driver"/>-->
+    <!--        <property name="username" value="root"/>-->
+    <!--        <property name="password" value="123456"/>-->
+    <!--    </properties>-->
+
+    <settings>
+        <!--   设置数库每个设置项     -->
+        <!--   全局地开启或关闭配置文件中的所有映射器已经配置的任何缓存。     -->
+        <setting name="cacheEnabled" value="true"/>
+    </settings>
+
+    <!--  default 选定不同环境  -->
+    <environments default="oracle">
+        <environment id="mysql">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${database.driverName2}"/>
+                <property name="url" value="${database.url1}"/>
+                <property name="username" value="${database.username1}"/>
+                <property name="password" value="${database.password1}"/>
+            </dataSource>
+        </environment>
+
+        <environment id="oracle">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${database.driverName2}"/>
+                <property name="url" value="${database.url2}"/>
+                <property name="username" value="${database.username2}"/>
+                <property name="password" value="${database.password2}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="mybatis/EmployeeMapper.xml"/>
+        <mapper resource="mybatis/EmployeeMapperInterface.xml"/>
+    </mappers>
+</configuration>
+```
+
+- 通过properties.resource 指定变量文件信息，并"${database.url1}"方法使用变量
+- 可以定义多个数据源
+- mapper定义mapper的xml文件位置
+
+#### **1.2.2 定义table类 + xml（这里省略了类代码）**
+
+```xml-dtd
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shanguigu.mybatis.bean.EmployeeMapper">
+<!--
+namespace: 命名空间
+id： 位移标识
+resultType： 返回数据类型
+chi
+-->
+<select id="selectEmp" resultType="com.shanguigu.mybatis.bean.Employee">
+        select * from tbl_employee where id = #{id}
+    </select>
+</mapper>
+```
+
+**java调用代码**
+
+```java
+// 创建一个session
+InputStream inputStream = Resources.getResourceAsStream(resource);
+SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream, "mysql");
+SqlSession sqlSession = sqlSessionFactory.openSession();
+try {
+    // 通过定义sql语句的命名空间定位来执行相应的SQL语句：仅仅需要定义返回类，以及定义的类的sql语句
+    Employee employee = sqlSession.selectOne("com.shanguigu.mybatis.bean.EmployeeMapper.selectEmp", 101);
+    logger.info("{} {} {}", employee.getId(), employee.getName(), employee.getSex());
+} finally {
+    sqlSession.close();
+    logger.info("查询完成!");
+}
+```
+
+通过sqlSession.selectOne 的方法执行， 输入的参数为xml的定义业务语句 命名空间 + 方法具体id
+
+#### **1.2.3常用的方法：table类 + 抽象方法接口 + xml文件**
+
+```xml-dtd
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shanguigu.mybatis.dao.EmployeeMapper">
+    <!--
+    namespace: 命名空间, 与接口对应
+    id： 位移标识， 必须与接口定义的方法一致
+    resultType： 返回数据类型
+    -->
+    <select id="getEmpById" resultType="com.shanguigu.mybatis.bean.Employee">
+        select * from tbl_employee where id = #{id}
+    </select>
+</mapper>
+```
+
+命名空间与dao定义的interface路径一致，不是强制为了可读性，xml中的id与interface定义的方法必须一致。
+
+**抽象类的定义**:getEmpById
+
+```java
+public interface EmployeeMapper {
+
+    public Employee getEmpById(Integer id);
+
+}
+```
+
+**java 采用反射代理机制对抽象接口方法调用**:sqlSession.getMapper
+
+```java
+InputStream inputStream = Resources.getResourceAsStream(resource);
+SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+SqlSession sqlSession = sqlSessionFactory.openSession();
+try {
+    // 代理机制获取接口对应的类
+    EmployeeMapper employeeMapper = sqlSession.getMapper(EmployeeMapper.class);
+    logger.info("Mapper class: {}", employeeMapper.getClass());
+    // 定义接口，以及xml文件命名空间和方法名必须意义对应
+    Employee employee = employeeMapper.getEmpById(101);
+    logger.info("{} {} {}", employee.getId(), employee.getName(), employee.getSex());
+} finally {
+    sqlSession.close();
+    logger.info("查询完成!");
+}
+```
+
+#### 1.2.4 使用resultMap mybatis高级属性定义返货数据类型
+
+<https://blog.csdn.net/wangduanqs/article/details/85023293>
+
+```
+association:left join 的右边只有唯一返回值
+collection:left join 的右边多个返回值
+```
+
+
 
 ## springboot
 

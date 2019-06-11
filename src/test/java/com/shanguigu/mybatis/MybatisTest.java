@@ -80,7 +80,7 @@ public class MybatisTest {
         SqlSession sqlSession = sqlSessionFactory.openSession();
         try {
             CompanyMapper companyMapper = sqlSession.getMapper(CompanyMapper.class);
-            Company company = companyMapper.selectByCompany("jd");
+            Company company = companyMapper.selectByCompany("alibaba");
             logger.info("{}", company);
         } finally {
             sqlSession.close();
