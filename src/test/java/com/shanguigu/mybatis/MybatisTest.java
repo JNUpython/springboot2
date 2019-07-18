@@ -19,7 +19,7 @@ import java.io.InputStream;
  * @author : kean
  * @version V1.0
  * @Project: springboot2
- * @Package shanguigu.mybatis
+ * @Package shanguigu.mapper
  * @Description: TODO
  * @date Date : 2019-05-03 22:59
  */
@@ -28,7 +28,7 @@ public class MybatisTest {
 
     private static final Logger logger = LoggerFactory.getLogger(MybatisTest.class);
 
-    private static final String resource = "mybatis/mybatis.xml";
+    private static final String resource = "mybatis.xml";
 
     /**
      * xml SqlSessionFactory 创建
@@ -43,6 +43,7 @@ public class MybatisTest {
         SqlSession sqlSession = sqlSessionFactory.openSession();
         try {
             // 通过定义sql语句的命名空间定位来执行相应的SQL语句：仅仅需要定义返回类，以及定义的类的sql语句
+            // 通过 sqlSession.selectOne
             Employee employee = sqlSession.selectOne("com.shanguigu.mybatis.bean.EmployeeMapper.selectEmp", 101);
             logger.info("{} {} {}", employee.getId(), employee.getName(), employee.getSex());
         } finally {
@@ -75,6 +76,7 @@ public class MybatisTest {
 
     @Test
     public void test3() throws IOException {
+        // 连接oracle 并resultMap 使用复杂的查询语句和复杂的结果返回类型
         InputStream inputStream = Resources.getResourceAsStream(resource);
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream, "oracle");
         SqlSession sqlSession = sqlSessionFactory.openSession();

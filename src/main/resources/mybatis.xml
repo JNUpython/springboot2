@@ -4,7 +4,9 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <!-- 添加公共变量信息：方法1 这样我们就可以用dev配置文件中一些变量  -->
-    <properties resource="jdbc.properties"></properties>
+    <properties resource="jdbc.properties">
+        <property name="test" value="test"/>
+    </properties>
     <!--   自定义一些变量-->
     <!--    <properties>-->
     <!--        <property name="url" value="jdbc:mysql://127.0.0.1:3306/test?serverTimezone=CTT&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true"/>-->
@@ -42,8 +44,8 @@
         </environment>
     </environments>
     <mappers>
-        <mapper resource="mybatis/EmployeeMapper.xml"/>
-        <mapper resource="mybatis/EmployeeMapperInterface.xml"/>
-        <mapper resource="mybatis/CompanyMapper.xml"/>
+        <mapper resource="mapper/EmployeeMapper.xml"/>
+        <mapper resource="mapper/EmployeeMapperInterface.xml"/>
+        <mapper resource="mapper/CompanyMapper.xml"/>
     </mappers>
 </configuration>
