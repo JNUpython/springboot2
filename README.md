@@ -63,7 +63,7 @@ https://juejin.im/post/5c7654e351882562962ef70e
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <!-- 添加公共变量信息：方法1 这样我们就可以用dev配置文件中一些变量  -->
-    <properties resource="jdbc.properties"></properties>
+    <properties main.java.resource="jdbc.properties"></properties>
     <!--   自定义一些变量-->
     <!--    <properties>-->
     <!--        <property name="url" value="jdbc:mysql://127.0.0.1:3306/test?serverTimezone=CTT&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true"/>-->
@@ -101,13 +101,13 @@ https://juejin.im/post/5c7654e351882562962ef70e
         </environment>
     </environments>
     <mappers>
-        <mapper resource="mybatis/EmployeeMapper.xml"/>
-        <mapper resource="mybatis/EmployeeMapperInterface.xml"/>
+        <mapper main.java.resource="mybatis/EmployeeMapper.xml"/>
+        <mapper main.java.resource="mybatis/EmployeeMapperInterface.xml"/>
     </mappers>
 </configuration>
 ```
 
-- 通过properties.resource 指定变量文件信息，并"${database.url1}"方法使用变量
+- 通过properties.main.java.resource 指定变量文件信息，并"${database.url1}"方法使用变量
 - 可以定义多个数据源
 - mapper定义mapper的xml文件位置
 
@@ -136,7 +136,7 @@ chi
 
 ```java
 // 创建一个session
-InputStream inputStream = Resources.getResourceAsStream(resource);
+InputStream inputStream = Resources.getResourceAsStream(main.java.resource);
 SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream, "mysql");
 SqlSession sqlSession = sqlSessionFactory.openSession();
 try {
@@ -185,7 +185,7 @@ public interface EmployeeMapper {
 **java 采用反射代理机制对抽象接口方法调用**:sqlSession.getMapper
 
 ```java
-InputStream inputStream = Resources.getResourceAsStream(resource);
+InputStream inputStream = Resources.getResourceAsStream(main.java.resource);
 SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
 SqlSession sqlSession = sqlSessionFactory.openSession();
 try {
