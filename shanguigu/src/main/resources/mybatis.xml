@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <!-- 添加公共变量信息：方法1 这样我们就可以用dev配置文件中一些变量  -->
-    <properties main.java.resource="jdbc.properties">
+    <properties resource="jdbc.properties">
         <property name="test" value="test"/>
     </properties>
     <!--   自定义一些变量-->
@@ -44,8 +44,8 @@
         </environment>
     </environments>
     <mappers>
-        <mapper main.java.resource="mapper/EmployeeMapper.xml"/>
-        <mapper main.java.resource="mapper/EmployeeMapperInterface.xml"/>
-        <mapper main.java.resource="mapper/CompanyMapper.xml"/>
+        <mapper resource="mapper/EmployeeMapper.xml"/>
+        <mapper resource="mapper/EmployeeMapperInterface.xml"/>
+        <mapper resource="mapper/CompanyMapper.xml"/>
     </mappers>
 </configuration>
