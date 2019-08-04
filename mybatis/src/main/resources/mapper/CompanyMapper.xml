@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kean.mybatis.mapper.CompanyMapper">
+    <!--
+    namespace: 命名空间, 与接口对应
+    id： 位移标识， 必须与接口定义的方法一致
+    resultType： 返回数据类型
+    -->
+
+    <!--    <select id="selectByCompany" parameterType="java.lang.String" resultMap="map">-->
+    <!--        SELECT ID, COMPANY FROM TBL_COMPANY WHERE COMPANY = #{company}-->
+    <!--    </select>-->
+
+<!--    <select id="selectByCompany" parameterType="java.lang.String" resultMap="map">-->
+<!--        SELECT a.ID ID, a.COMPANY COMPANY, b.ID PERSON_ID, b.NAME NAME, b.SEX SEX, b.COMPANY_ID COMPANY_ID FROM-->
+<!--            TBL_COMPANY a LEFT JOIN TBL_EMPLOYEE b ON a.ID = b.COMPANY_ID-->
+<!--        WHERE a.COMPANY = #{company}-->
+<!--    </select>-->
+
+
+    <select id="selectByCompany" parameterType="java.lang.String" resultMap="map">
+        SELECT
+        a.ID ID, a.COMPANY COMPANY, b.ID PERSON_ID, b.NAME NAME, b.SEX SEX, b.COMPANY_ID COMPANY_ID
+        FROM
+        TBL_COMPANY a left join TBL_BOSS b on b.COMPANY_ID = a.ID
+        WHERE a.COMPANY = #{company}
+    </select>
+
+
+    <!-- 通过resultMap 解决 命名问题   -->
+    <resultMap id="map" type="com.kean.mybatis.bean.Company">
+        <result property="id" column="ID" javaType="java.lang.Integer"></result>
+        <result property="company" column="COMPANY" javaType="java.lang.String"></result>
+        <!-- 复杂javabean嵌套映射       -->
+        <association property="boss" resultMap="boss" javaType="com.kean.mybatis.bean.Boss"></association>
+<!--        <collection property="employeeList" resultMap="employees" ofType="com.kean.mybatis.bean.Employee"></collection>-->
+    </resultMap>
+
+    <resultMap id="boss" type="com.kean.mybatis.bean.Boss">
+        <result property="id" column="PERSON_ID"></result>
+        <result property="name" column="NAME"></result>
+        <result property="companyId" column="COMPANY_ID"></result>
+        <result property="sex" column="SEX"></result>
+    </resultMap>
+
+    <resultMap id="employees" type="com.kean.mybatis.bean.Employee">
+        <result property="id" column="PERSON_ID"></result>
+        <result property="name" column="NAME"></result>
+        <result property="companyId" column="COMPANY_ID"></result>
+        <result property="sex" column="SEX"></result>
+    </resultMap>
+
+</mapper>
