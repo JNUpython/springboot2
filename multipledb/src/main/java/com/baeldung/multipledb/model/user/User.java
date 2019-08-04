@@ -1,5 +1,7 @@
 package com.baeldung.multipledb.model.user;
 
+import lombok.ToString;
+
 import javax.persistence.*;
 
 /**
@@ -13,6 +15,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(schema = "users")
+@ToString
 public class User {
 
     @Id

@@ -1,5 +1,6 @@
 package com.baeldung.multipledb.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -24,6 +25,7 @@ import javax.sql.DataSource;
  * @Description: TODO
  * @date Date : 2019-08-03 0:37
  */
+@Slf4j
 @Configuration
 @PropertySource({"classpath:persistence-multiple-db-boot.properties"})
 @EnableJpaRepositories(
@@ -44,6 +46,10 @@ public class PersistenceProductAutoConfiguration {
             EntityManagerFactoryBuilder builder,
             @Qualifier("productDataSource") DataSource dataSource
     ) {
+        try {
+            log.info(dataSource.toString());
+        } catch (Exception ignore) {}
+
         return builder.dataSource(dataSource)
                 .packages("com.baeldung.multipledb.model.product")
                 .persistenceUnit("product")

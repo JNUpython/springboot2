@@ -1,5 +1,7 @@
 package com.baeldung.multipledb.model.product;
 
+import lombok.ToString;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -15,6 +17,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(schema = "products")
+@ToString
 public class Product {
 
     @Id
